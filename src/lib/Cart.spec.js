@@ -121,6 +121,22 @@ describe('Cart', () => {
 
     });
 
+    it('should NOT apply percent discount when quantity bellow or equal to minimum', () => {
+      const condition = {
+        percentage: 30,
+        minimum: 3,
+      }
+
+      cart.add({
+        product,
+        condition,
+        quantity: 3,
+      })
+
+      expect(cart.getTotal()).toEqual(106164);
+
+    });
+
     it('should apply quantity discount for even quantities', () => {
       const condition = {
         quantity: 2
@@ -133,6 +149,44 @@ describe('Cart', () => {
       })
 
       expect(cart.getTotal()).toEqual(70776);
+
+    });
+
+    it('should NOT apply quantity discount for even quantities whet condition is not met', () => {
+      const condition = {
+        quantity: 3
+      }
+
+      cart.add({
+        product,
+        condition,
+        quantity: 3,
+      })
+
+      expect(cart.getTotal()).toEqual(106164);
+
+    });
+
+    it('should apply quantity discount for odd quantities', () => {
+      const condition = {
+        quantity: 2
+      }
+      cart.add({
+        product,
+        condition,
+        quantity: 7,
+      })
+      expect(cart.getTotal()).toEqual(141552);
+
+      cart.remove(product)
+
+      cart.add ({
+        product: product2,
+        condition,
+        quantity: 3,
+      })
+
+      expect(cart.getTotal()).toEqual(83744);
 
     });
   })

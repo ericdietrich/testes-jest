@@ -5,14 +5,20 @@ import Dinero from 'dinero.js';
 const calculatePercentageDiscount = (amount, item) => {
   if (item.condition?.percentage &&
     item.quantity > item.condition.minimum ) {
-  return amount.percentage(item.condition.percentage)
+    return amount.percentage(item.condition.percentage)
   }
   return Money({amount: 0})
 }
 
 const calculateQuantityDiscount = (amount, item) => {
   if (item.quantity > item.condition.quantity) { 
-    return amount.percentage(50)
+    if (item.quantity % 2 === 0) {
+      return amount.percentage(50)
+    } else {
+      return amount
+              .subtract(Money({amount: item.product.price}))
+              .percentage(50);
+    }
   }
   return Money({amount: 0})
 }
