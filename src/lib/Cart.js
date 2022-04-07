@@ -70,11 +70,19 @@ export default class Cart {
   }
 
   summary () {
+    const formatter = new Intl.NumberFormat('pt-br', {
+      style: 'currency',
+      currency: 'BRL'
+    })
+
+
     const total = this.getTotal();
+    const formatted = formatter.format(total);
     const items= this.items;
 
     return {
       total,
+      formatted,
       items
     }
   }

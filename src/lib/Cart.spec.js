@@ -93,6 +93,19 @@ describe('Cart', () => {
       expect(cart.getTotal()).toBeGreaterThan(0);
     });
 
+    it('should include formatted amount in the summary', () => {
+      cart.add({
+        product,
+        quantity: 2, 
+      });
+  
+      cart.add({
+        product: product2,
+        quantity: 1, 
+      });
+      expect(cart.summary().formatted).toBe("R$\xa0112.648,00");
+    });
+
     it('should should reset the cart when checkout is called', () => {
       cart.add({
         product: product2,
